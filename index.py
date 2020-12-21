@@ -14,25 +14,29 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, tweet):
         tweetInfo = json.loads(json.dumps(tweet._json))
-        # User's tweet contents
+
+        # Duplicate prevention on retweet of original tweet
+        if 'retweeted_status' in tweetInfo:
+            return
+
+        # BLACC Publicize message
         replyContent = "We're BLACC - The Black Coder Community, a safe space for black people to exchange knowledge and be exposed to new technologies. If you’re looking to join a community exemplifying Black excellence and pushing the needle within tech, click the link below! blacc.xyz/discord"
 
+        # Reply to the tweet
+        api.update_status(status=replyContent, in_reply_to_status_id=tweetInfo['id'],
+                          auto_populate_reply_metadata=True)
         # Like the tweet
         if not tweet.favorited:
-            # Mark it as Liked, since we have not done it yet
             try:
                 tweet.favorite()
             except Exception as e:
                 print("Error: " + str(e))
 
-        # Retweet the tweet and send message
+        # Retweet the tweet
         if not tweet.retweeted:
             # Retweet, since we have not retweeted it yet
             try:
                 tweet.retweet()
-                # Reply to the tweet
-                api.update_status(status=replyContent, in_reply_to_status_id=tweetInfo['id'],
-                                  auto_populate_reply_metadata=True)
             except Exception as e:
                 print("Error: " + str(e))
     def on_error(self, status):
@@ -50,4 +54,4 @@ api = tweepy.API(auth, wait_on_rate_limit=True,
     wait_on_rate_limit_notify=True)
 tweets_listener = MyStreamListener(api)
 stream = tweepy.Stream(api.auth, tweets_listener)
-stream.filter(track=["#darrylsbot"],is_async=True)
+stream.filter(track=["#blacktechtwitter","#blackintech","#blackcoders","#blacktechpipeline","#blackdesigners","#blackwomenintech"],is_async=True)
