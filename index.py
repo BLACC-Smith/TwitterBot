@@ -16,8 +16,8 @@ class MyStreamListener(tweepy.StreamListener):
     def on_status(self, tweet):
         tweetInfo = json.loads(json.dumps(tweet._json))
 
-        # Duplicate prevention on retweet of original tweet
-        if 'retweeted_status' in tweetInfo:
+        # Guard clause for retweets of original tweet
+        if 'retweeted_status' in tweetInfo or 'quoted_status_permalink' in tweetInfo:
             return
 
         # Like the tweet
@@ -40,6 +40,8 @@ class MyStreamListener(tweepy.StreamListener):
             # Wait 15 min before reconnecting
             sleep(900)
             return False
+        else:
+            print("Error detected: " + str(status))
 
 
 # Authenticate to Twitter
