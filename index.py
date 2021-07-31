@@ -53,4 +53,4 @@ api = tweepy.API(auth, wait_on_rate_limit=True,
     wait_on_rate_limit_notify=True)
 tweets_listener = MyStreamListener(api)
 stream = tweepy.Stream(api.auth, tweets_listener)
-stream.filter(track=["#blacktechtwitter","#blacc"],is_async=True)
+stream.filter(track=["#blacktechtwitter","#BaddiesInTech","#BlackWomenInTech",""],is_async=True)
