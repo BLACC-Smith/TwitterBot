@@ -21,7 +21,7 @@ class MyStreamListener(tweepy.StreamListener):
             return
         
         # Guard clause for possibly sensitive tweets
-        if tweetInfo['possibly_sensitive'] == True:
+        if 'possibly_sensitive' in tweetInfo and tweetInfo['possibly_sensitive'] == True:
             return
         
         # Guard clause for tweets with more than 3 hashtags
