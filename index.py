@@ -21,10 +21,10 @@ class MyStreamListener(tweepy.StreamListener):
             return
         
         # Guard clause for possibly sensitive tweets
-        if 'possibly_sensitive' in tweetInfo and tweetInfo['possibly_sensitive'] == True:
+        if 'possibly_sensitive' in tweetInfo and tweetInfo['possibly_sensitive']:
             return
         
-        # Guard clause for tweets with more than 3 hashtags
+        # Guard clause for tweets with more than 5 hashtags
         if len(tweetInfo['entities']['hashtags']) > 5 or len(tweetInfo['extended_tweet']['entities']['hashtags']) > 5:
             print("Tweet with more than 5 hashtags detected. Ignoring...")
             return
@@ -34,15 +34,14 @@ class MyStreamListener(tweepy.StreamListener):
             try:
                 tweet.favorite()
             except Exception as e:
-                print("Error: " + str(e))
+                print("Error liking tweet because: " + str(e))
 
         # Retweet the tweet
         if not tweet.retweeted:
             try:
                 tweet.retweet()
-                print(tweetInfo)
             except Exception as e:
-                print("Error: " + str(e))
+                print("Error retweeting tweet because: " + str(e))
 
     def on_error(self, status):
         if status == 420:
