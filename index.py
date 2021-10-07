@@ -19,7 +19,15 @@ class MyStreamListener(tweepy.StreamListener):
         # Guard clause for retweets of original tweet
         if 'retweeted_status' in tweetInfo or 'quoted_status_permalink' in tweetInfo:
             return
-
+        
+        # Guard clause for possibly sensitive tweets
+        if tweetInfo['possibly_sensitive'] == True:
+            return
+        
+        # Guard clause for tweets with more than 3 hashtags
+        if len(tweetInfo['entities']['hashtags']) > 3:
+            return
+        
         # Like the tweet
         if not tweet.favorited:
             try:
@@ -53,4 +61,4 @@ api = tweepy.API(auth, wait_on_rate_limit=True,
     wait_on_rate_limit_notify=True)
 tweets_listener = MyStreamListener(api)
 stream = tweepy.Stream(api.auth, tweets_listener)
-stream.filter(track=["#blacktechtwitter","#BaddiesInTech","#BlackWomenInTech",""],is_async=True)
+stream.filter(track=["#blacktechtwitter","#BaddiesInTech","#BlackWomenInTech"],is_async=True)
