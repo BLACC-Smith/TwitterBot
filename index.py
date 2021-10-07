@@ -25,7 +25,8 @@ class MyStreamListener(tweepy.StreamListener):
             return
         
         # Guard clause for tweets with more than 3 hashtags
-        if len(tweetInfo['entities']['hashtags']) > 3:
+        if len(tweetInfo['entities']['hashtags']) > 5:
+            print("Tweet with more than 5 hashtags detected. Ignoring...")
             return
         
         # Like the tweet
