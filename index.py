@@ -40,7 +40,7 @@ class MyStreamListener(tweepy.StreamListener):
         if not tweet.retweeted:
             try:
                 tweet.retweet()
-                print(tweetInfo['entities']['hashtags'])
+                print(tweetInfo)
             except Exception as e:
                 print("Error: " + str(e))
 
