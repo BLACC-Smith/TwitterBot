@@ -25,10 +25,15 @@ class MyStreamListener(tweepy.StreamListener):
             return
         
         # Guard clause for tweets with more than 5 hashtags
-        if len(tweetInfo['entities']['hashtags']) > 5 or len(tweetInfo['extended_tweet']['entities']['hashtags']) > 5:
+        if len(tweetInfo['entities']['hashtags']) > 5:
             print("Tweet with more than 5 hashtags detected. Ignoring...")
             return
-        
+
+        # Guard clause for extended tweets with more than 5 hashtags
+        if 'extended_tweet' in tweetInfo and len(tweetInfo['extended_tweet']['entities']['hashtags']) > 5:
+            print("Extended tweet with more than 5 hashtags detected. Ignoring...")
+            return
+
         # Like the tweet
         if not tweet.favorited:
             try:
