@@ -42,7 +42,6 @@ class MyStreamClient(tweepy.Stream):
         ## Like the tweet
         if not tweet.favorited:
             try:
-                # tweet.favorite()
                 api.create_favorite(id=tweetInfo['id'])
             except Exception as e:
                 print("Error liking tweet because: " + str(e))
@@ -50,7 +49,6 @@ class MyStreamClient(tweepy.Stream):
         ## Retweet the tweet
         if not tweet.retweeted:
             try:
-                # tweet.retweet()
                 api.retweet(id=tweetInfo['id'])
             except Exception as e:
                 print("Error retweeting tweet because: " + str(e))
