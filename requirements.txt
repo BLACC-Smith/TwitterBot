@@ -1,1 +1,2 @@
-tweepy==3.9.0
+tweepy==4.10.0
+alt-profanity-check==1.1.2
